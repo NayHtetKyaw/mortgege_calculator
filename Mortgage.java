@@ -3,23 +3,54 @@ package lession1;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
+
+
 public class Mortgage {
     public static void main(String[] args){
         final byte MONTHS_IN_YEAR = 12;
         final byte PERCENTAGE = 100;
+        int principal;
+        double annual_interest_rate;
+        byte period;
+        double a_i_r;
+        int number_of_period;
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Principal :");
-        int principal = sc.nextInt();
+        Scanner sc = new Scanner(System.in);  //input scanner
+        System.out.print("Principal (1K - 1M) :");
+        principal = sc.nextInt();
 
-        System.out.print("Annual Interest Rate :");
-        double annual_interest_rate = sc.nextDouble();
+        //principal conditions
+        while(true){
+            if(principal < 1000 || principal > 1000000) {
+                System.out.println("The loan amount should be between 1K and 1M");
+                System.out.print("Principal (1K - 1M) :");
+                principal = sc.nextInt();
+            }else
+                break;
+        }
 
-        System.out.print("Period (Year):");
-        byte period = sc.nextByte();
+        //annual interest rate conditions
+        while(true){
+            System.out.print("Annual Interest Rate :");
+            annual_interest_rate = sc.nextDouble();
+            if (annual_interest_rate <= 0 || annual_interest_rate > 30) {
+                System.out.println("Annual interest rate should be between 1 to 30");
+            }else
+                break;
+        }
 
-        double a_i_r = (annual_interest_rate/PERCENTAGE)/MONTHS_IN_YEAR;
-        int number_of_period = period*MONTHS_IN_YEAR;
+        //period conditions
+        while(true){
+            System.out.print("Period (Year):");
+            period = sc.nextByte();
+            if(period <= 0 || period > 30){
+                System.out.println("Payback Period should be between 1 to 30");
+            }else
+                break;
+        }
+
+        a_i_r = (annual_interest_rate/PERCENTAGE)/MONTHS_IN_YEAR;
+        number_of_period = period*MONTHS_IN_YEAR;
 
         double upper_case = a_i_r*(Math.pow(1+a_i_r, number_of_period));
         double lower_case = (Math.pow(1 + a_i_r, number_of_period))-1;
@@ -27,7 +58,7 @@ public class Mortgage {
 
 
         NumberFormat mortgage = NumberFormat.getCurrencyInstance();
-        String result = (mortgage.format(M));
-        System.out.println("Mortgage :"+result);
+        String result = mortgage.format(M);
+        System.out.println("Mortgage : "+(result));
     }
 }
